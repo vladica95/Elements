@@ -1,0 +1,10 @@
+E:\VS\VS2017\Elements\Elements\bin\Debug\Elements.exe.config
+E:\VS\VS2017\Elements\Elements\bin\Debug\Elements.exe
+E:\VS\VS2017\Elements\Elements\bin\Debug\Elements.pdb
+E:\VS\VS2017\Elements\Elements\obj\Debug\Elements.csprojAssemblyReference.cache
+E:\VS\VS2017\Elements\Elements\obj\Debug\Elements.csproj.CoreCompileInputs.cache
+E:\VS\VS2017\Elements\Elements\obj\Debug\Elements.exe
+E:\VS\VS2017\Elements\Elements\obj\Debug\Elements.pdb
+E:\VS\VS2017\Elements\Elements\bin\Debug\Newtonsoft.Json.dll
+E:\VS\VS2017\Elements\Elements\bin\Debug\Newtonsoft.Json.xml
+E:\VS\VS2017\Elements\Elements\obj\Debug\Elements.csproj.CopyComplete
