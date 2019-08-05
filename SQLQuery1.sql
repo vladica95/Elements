@@ -14,8 +14,8 @@ GO
 PRINT N'Creating NewDatabase.ElemtC...';  
 GO  
 CREATE TABLE [NewDatabase].[ElementC] (  
-    [IDKOD] INT      NOT NULL,  
-    [ID]    INT      IDENTITY (1, 1) NOT NULL,  
+    [IDKOD] INT      REFERENCES [NewDatabase].[ElementP](IdentifikacioniKod),  
+    [ID]    INT      IDENTITY (1, 1) PRIMARY KEY,  
     [Grupa]     CHAR (1) NOT NULL,  
     [Vrednost]     INT      NOT NULL  
 );  
