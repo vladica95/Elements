@@ -8,7 +8,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Elements
 {
-    class ElementP
+   public class ElementP
     {
 
         private int redniBroj;

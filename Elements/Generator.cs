@@ -58,11 +58,15 @@ namespace Elements
                 Console.WriteLine("Smestanje u fajl.");
                 while (path == "")
                 {
-                    OpenFileDialog ofd = new OpenFileDialog();
-                    ofd.Filter = "Choose json (*.json)|*.json";
-                    if (ofd.ShowDialog() == DialogResult.OK)
+                    FolderBrowserDialog fbd = new FolderBrowserDialog();
+                    //DialogResult result = fbd.ShowDialog();
+                    //txtSelectedFolderPath.Text = fbd.SelectedPath.ToString();
+                   // OpenFileDialog ofd = new OpenFileDialog();
+                   // ofd.Filter = "Choose json (*.json)|*.json";
+                    if (fbd.ShowDialog() == DialogResult.OK)
                     {
-                        path = ofd.FileName.ToString();
+                        //  path = ofd.FileName.ToString();
+                       path= fbd.SelectedPath.ToString()+"\\searchRes.json";
                     }
                 }
                 for (int i = 0; i < elementPs.Length; i++)

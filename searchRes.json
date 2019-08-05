@@ -1,21 +1,21 @@
 {
-  "IdentifikacioniKod": "4820191547523667",
-  "RedniBroj": 1,
+  "IdentifikacioniKod": "5820192028111685",
+  "RedniBroj": 4,
   "ElementC": [
     {
-      "Grupa": "k",
+      "Grupa": "e",
       "Vrednost": 6
     },
     {
-      "Grupa": "p",
+      "Grupa": "r",
       "Vrednost": 8
     },
     {
-      "Grupa": "h",
-      "Vrednost": 7
+      "Grupa": "y",
+      "Vrednost": 6
     },
     {
-      "Grupa": "k",
+      "Grupa": "g",
       "Vrednost": 7
     }
   ]
