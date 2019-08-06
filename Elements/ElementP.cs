@@ -8,7 +8,7 @@ using Newtonsoft.Json.Linq;
 
 namespace Elements
 {
-   public class ElementP
+    public class ElementP
     {
 
         private int redniBroj;
@@ -25,14 +25,19 @@ namespace Elements
             FromJson(jSon);
         }
 
+        public ElementC[] Elementi
+        {
+            get{ return this.elementi; }
+        }
+
         private void FromJson(string json)
         {
             var jObject = JObject.Parse(json);
 
             if (jObject != null)
             {
-                redniBroj=(int) jObject["RedniBroj"];
-                identifikacioniKod= jObject["IdentifikacioniKod"].ToString();
+                redniBroj = (int)jObject["RedniBroj"];
+                identifikacioniKod = jObject["IdentifikacioniKod"].ToString();
 
                 JArray elementCs = (JArray)jObject["ElementC"];
                 if (elementCs != null)

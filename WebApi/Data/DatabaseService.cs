@@ -37,13 +37,14 @@ namespace WebApi.Data
 
             cmd.ExecuteNonQuery();
 
-            var str = elP.ToJson();
+            ElementC[] elementCs = elP.Elementi;
 
+
+            /*var str = elP.ToJson();
             var jObject = JObject.Parse(str);
-
             JArray elementCs = (JArray)jObject["ElementC"];
             if (elementCs != null)
-            {
+            {*/
                 foreach (var item in elementCs)
                 {
                     sql = "INSERT INTO ElementC (IDKOD,Grupa,Vrednost) values (@IDK,@G,@V)";
@@ -53,14 +54,14 @@ namespace WebApi.Data
                     cmd.Parameters["@IDK"].Value = elP.IdentifikacioniKod;
 
                     cmd.Parameters.Add("@G", SqlDbType.VarChar);
-                    cmd.Parameters["@G"].Value = (char)item["Grupa"];
+                    cmd.Parameters["@G"].Value = item.Grupa;
 
                     cmd.Parameters.Add("@V", SqlDbType.Int);
-                    cmd.Parameters["@V"].Value = (int)item["Vrednost"];
+                    cmd.Parameters["@V"].Value = item.Vrednost;
 
                     cmd.ExecuteNonQuery();
                 }
-            }
+            //}
             con.Close();
         }
         public List<ElementP> GetData(DateTime dateTime)

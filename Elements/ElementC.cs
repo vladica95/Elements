@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Elements
 {
-    class ElementC
+    public class ElementC
     {
 
         private char grupa;

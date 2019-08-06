@@ -56,10 +56,11 @@ namespace Elements
            // List<ElementP> result = response.Content.ToString();
         }
 
-        /*
+        
         public void Proba() //Srediti konekciju sa SQL
         {
             SqlConnection con = new SqlConnection(@"Data Source=VLADICA-PC\SQLEXPRESS;Initial Catalog=NewDatbase;Integrated Security=True;");
+
             try
             {
                 con.Open();
@@ -67,6 +68,8 @@ namespace Elements
                 {
                     if (elementPs[i].NadjiSumu() > 15)
                     {
+                        
+
                         string sql = "INSERT INTO [ElementP] (IdentifikacioniKod,RedniBroj,DatumPretrage) values (@ID,@RB,@DP)";
 
                         SqlCommand cmd = new SqlCommand(sql, con);
@@ -90,7 +93,7 @@ namespace Elements
             }
             con.Close();
         }
-        */
+        
 
 
         public async void Pretraga(int p, string output)
