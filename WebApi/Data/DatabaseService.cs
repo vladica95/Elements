@@ -20,7 +20,7 @@ namespace WebApi.Data
 
         public void AddData(ElementP elP)
         {
-            Console.WriteLine("Provera dal radi xD");
+            
             con.Open();
           
             string sql = "INSERT INTO ElementP (IdentifikacioniKod,RedniBroj,DatumPretrage) values (@ID,@RB,@DP)";
@@ -38,13 +38,7 @@ namespace WebApi.Data
             cmd.ExecuteNonQuery();
 
             ElementC[] elementCs = elP.Elementi;
-
-
-            /*var str = elP.ToJson();
-            var jObject = JObject.Parse(str);
-            JArray elementCs = (JArray)jObject["ElementC"];
-            if (elementCs != null)
-            {*/
+            
                 foreach (var item in elementCs)
                 {
                     sql = "INSERT INTO ElementC (IDKOD,Grupa,Vrednost) values (@IDK,@G,@V)";
@@ -61,7 +55,7 @@ namespace WebApi.Data
 
                     cmd.ExecuteNonQuery();
                 }
-            //}
+          
             con.Close();
         }
         public List<ElementP> GetData(DateTime dateTime)
