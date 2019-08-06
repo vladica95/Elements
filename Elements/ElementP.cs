@@ -20,6 +20,37 @@ namespace Elements
         {
             identifikacioniKod = "";
         }
+        public ElementP(string jSon)
+        {
+            FromJson(jSon);
+        }
+
+        private void FromJson(string json)
+        {
+            var jObject = JObject.Parse(json);
+
+            if (jObject != null)
+            {
+                redniBroj=(int) jObject["RedniBroj"];
+                identifikacioniKod= jObject["IdentifikacioniKod"].ToString();
+
+                JArray elementCs = (JArray)jObject["ElementC"];
+                if (elementCs != null)
+                {
+                    List<ElementC> elC = new List<ElementC>();
+                    foreach (var item in elementCs)
+                    {
+                        elC.Add(new ElementC((char)item["Grupa"], (int)item["Vrednost"]));
+                    }
+                    elementi = new ElementC[elC.Count];
+                    for (int i = 0; i < elC.Count; i++)
+                    {
+                        elementi[i] = elC[i];
+                    }
+                }
+            }
+        }
+
         public ElementP(int brojElemenata, int redniBr)
         {
 
@@ -38,7 +69,7 @@ namespace Elements
                 elementi[i] = new ElementC();
             }
         }
-        
+
         public string IdentifikacioniKod
 
         {
@@ -75,10 +106,8 @@ namespace Elements
                 }
             }
         }
-
-        public void UpisiUFajl(string path)
+        public string ToJson()
         {
-
             var jElP = Newtonsoft.Json.JsonConvert.SerializeObject(this,
                                    Newtonsoft.Json.Formatting.Indented);
             var jObj = JObject.Parse(jElP);
@@ -96,11 +125,16 @@ namespace Elements
 
             string newJsonResult = Newtonsoft.Json.JsonConvert.SerializeObject(jObj,
                                    Newtonsoft.Json.Formatting.Indented);
+            return newJsonResult;
+        }
+        public void UpisiUFajl(string path)
+        {
 
+            string JsonResult = ToJson();
 
             using (var tw = new StreamWriter(path, true))
             {
-                tw.WriteLine(newJsonResult);
+                tw.WriteLine(JsonResult);
                 tw.Close();
             }
         }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Elements;
+using WebApi.Data;
 
 namespace WebApi.Controllers
 {
@@ -10,36 +12,33 @@ namespace WebApi.Controllers
     [ApiController]
     public class ValuesController : ControllerBase
     {
-        // GET api/values
-        [HttpGet]
-        public ActionResult<IEnumerable<string>> Get()
+        private IDatabaseService dBS;
+
+        public ValuesController(IDatabaseService ser)
         {
-            return new string[] { "value1", "value2" };
+            dBS = ser;
         }
 
         // GET api/values/5
-        [HttpGet("{id}")]
-        public ActionResult<string> Get(int id)
+        [HttpGet("{vreme}")]
+        public ActionResult<string> Get(DateTime dateTime)
         {
-            return "value";
+
+            List<ElementP> result = dBS.GetData(dateTime);
+            string json = null; // convert result to json 
+
+            return Ok(json);
+           
         }
 
         // POST api/values
         [HttpPost]
         public void Post([FromBody] string value)
         {
+            ElementP ElP = new ElementP(value); //transform json to ElementP
+            dBS.AddData(ElP);
         }
 
-        // PUT api/values/5
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        // DELETE api/values/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
-        {
-        }
+      
     }
 }

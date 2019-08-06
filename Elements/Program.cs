@@ -58,26 +58,28 @@ namespace Elements
                 }
             }
             Generator gen = new Generator(n, k);
-            Console.WriteLine("Unesite ID po kome zelite da dobijete Element: ");
-            string potraga = Console.ReadLine();
-            gen.IDSearch(potraga);
-            string opet = "y";
-            while (opet == "y")
-            {
-                Console.WriteLine("Unesite vrednost p: ");
-                int p = Int32.Parse(Console.ReadLine());
-                string output = "fajl";
-                while (output != "baza" && output != "fajl")
-                {
-                    Console.WriteLine("Unesite gde zelite da sacuvate pretragu:" +
-                        "baza za cuvanje u bazu ili fajl za cuvanje u fajl. ");
+              Console.WriteLine("Unesite ID po kome zelite da dobijete Element: ");
+               string potraga = Console.ReadLine();
+               gen.IDSearch(potraga);
+               string opet = "y";
+              while (opet == "y")
+              {
+                  Console.WriteLine("Unesite vrednost p: ");
+                  int p = Int32.Parse(Console.ReadLine());
+                  string output = "baza";
+                  while (output != "baza" && output != "fajl")
+                  {
+                      Console.WriteLine("Unesite gde zelite da sacuvate pretragu:" +
+                          "baza za cuvanje u bazu ili fajl za cuvanje u fajl. ");
 
-                    output = Console.ReadLine();
-                }
-                gen.Pretraga(p, output);
-                Console.WriteLine("Traziti opet? y/n");
-                opet = Console.ReadLine();
-            }
+                      output = Console.ReadLine();
+                  }
+                  gen.Pretraga(p, output);
+                  Console.WriteLine("Traziti opet? y/n");
+                  opet = Console.ReadLine();
+              }
+              
+           // gen.Proba();
         }
     }
 }

@@ -18,7 +18,12 @@ namespace Elements
             vrednost = rand.Next(1, 9);
             grupa = (char)rand.Next(97, 122);
         }
-
+        public ElementC(char g,int v)
+        {
+            grupa = g;
+            vrednost = v;
+        }
+        
         public char Grupa
 
         {
