@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Elements;
 using WebApi.Data;
 
@@ -28,7 +29,7 @@ namespace WebApi.Controllers
         }
 
         // GET api/values/5
-        [HttpGet("{vreme}")]
+        [HttpGet("{vreme}", Name = "Get")]
         public ActionResult<string> Get(string vreme)
         {
             string json = null;

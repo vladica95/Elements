@@ -79,10 +79,10 @@ namespace Elements
                 Console.WriteLine("Traziti opet? y/n");
                 opet = Console.ReadLine();
             }
-                
+            gen.Citanje("02:50:01");
         //    gen.ProbaZaUpis();
-           // gen.ProbaZaCitanje("02:50:01");
-            
+        // gen.ProbaZaCitanje("02:50:01");
+
         }
     }
   
