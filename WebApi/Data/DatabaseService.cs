@@ -14,31 +14,34 @@ namespace WebApi.Data
         SqlCommand cmd;
         SqlConnection con;
         public DatabaseService()
-        {   
+        {
             con = new SqlConnection(@"Data Source=VLADICA-PC\SQLEXPRESS;Initial Catalog=NewDatbase;Integrated Security=True;");
         }
 
         public void AddData(ElementP elP)
         {
-            
-            con.Open();
-          
-            string sql = "INSERT INTO ElementP (IdentifikacioniKod,RedniBroj,DatumPretrage) values (@ID,@RB,@DP)";
-           
-            cmd= new SqlCommand(sql, con);
-            cmd.Parameters.Add("@ID", SqlDbType.VarChar);
-            cmd.Parameters["@ID"].Value = elP.IdentifikacioniKod;
 
-            cmd.Parameters.Add("@RB", SqlDbType.Int);
-            cmd.Parameters["@RB"].Value = elP.RedniBroj;
+            Console.WriteLine("ADDDING DATA IN TO THE DATABASE >>> \n\n\n");
+            try
+            {
+                con.Open();
 
-            cmd.Parameters.Add("@DP", SqlDbType.Time);
-            cmd.Parameters["@DP"].Value = DateTime.Now.TimeOfDay;
+                string sql = "INSERT INTO ElementP (IdentifikacioniKod,RedniBroj,DatumPretrage) values (@ID,@RB,@DP)";
 
-            cmd.ExecuteNonQuery();
+                cmd = new SqlCommand(sql, con);
+                cmd.Parameters.Add("@ID", SqlDbType.VarChar);
+                cmd.Parameters["@ID"].Value = elP.IdentifikacioniKod;
 
-            ElementC[] elementCs = elP.Elementi;
-            
+                cmd.Parameters.Add("@RB", SqlDbType.Int);
+                cmd.Parameters["@RB"].Value = elP.RedniBroj;
+
+                cmd.Parameters.Add("@DP", SqlDbType.Time);
+                cmd.Parameters["@DP"].Value = DateTime.Now.TimeOfDay;
+
+                cmd.ExecuteNonQuery();
+
+                ElementC[] elementCs = elP.Elementi;
+
                 foreach (var item in elementCs)
                 {
                     sql = "INSERT INTO ElementC (IDKOD,Grupa,Vrednost) values (@IDK,@G,@V)";
@@ -55,12 +58,75 @@ namespace WebApi.Data
 
                     cmd.ExecuteNonQuery();
                 }
-          
-            con.Close();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+            finally
+            {
+                con.Close();
+
+                Console.WriteLine("DONE WITH DATA ... ");
+            }
+
         }
-        public List<ElementP> GetData(DateTime dateTime)
+        public List<ElementP> GetData(string time)
         {
-            return null;
+            List<ElementP> elementPs = new List<ElementP>();
+            try
+            {
+                con.Open();
+                DateTime dateTime = DateTime.Parse(time);
+                dateTime = new DateTime(2000, 1, 1, dateTime.Hour, dateTime.Minute, dateTime.Second);
+
+                string sqlP = "SELECT IdentifikacioniKod,RedniBroj,DatumPretrage FROM ElementP";
+
+                SqlCommand cmdP = new SqlCommand(sqlP, con);
+
+                using (SqlDataReader oReader = cmdP.ExecuteReader())
+                {
+                    while (oReader.Read())
+                    {
+                        if (dateTime < DateTime.Parse(oReader["DatumPretrage"].ToString()))
+                        {
+                            ElementP ELP = new ElementP();
+                            ELP.IdentifikacioniKod = oReader["IdentifikacioniKod"].ToString();
+                            ELP.RedniBroj = Int32.Parse(oReader["RedniBroj"].ToString());
+                            elementPs.Add(ELP);
+                            Console.WriteLine("Citanje Podataka P");
+                        }
+                    }
+                }
+                   
+                foreach (var item in elementPs)
+                {
+                    List<ElementC> elementCs = new List<ElementC>();
+                    string IDenKod = item.IdentifikacioniKod;
+                    string sqlC = "SELECT Grupa,Vrednost FROM ElementC WHERE IDKOD=@IDenKod";
+                    SqlCommand cmdC = new SqlCommand(sqlC, con);
+                    cmdC.Parameters.AddWithValue("@IDenKod", dateTime);
+                    using (SqlDataReader oReader = cmdC.ExecuteReader())
+                    {
+                        while (oReader.Read())
+                        {
+                            ElementC ELC = new ElementC(oReader["Grupa"].ToString().ToCharArray()[0], Int32.Parse(oReader["Vrednost"].ToString()));
+                            elementCs.Add(ELC);
+                        }
+                    }
+                    item.AddCs(elementCs);
+                }
+
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
+            finally
+            {
+                con.Close();
+            }
+            return elementPs;
         }
     }
 }

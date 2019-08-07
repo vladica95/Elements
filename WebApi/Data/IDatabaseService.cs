@@ -10,7 +10,7 @@ namespace WebApi.Data
     {
          void AddData(ElementP elP);
 
-         List<ElementP> GetData(DateTime dateTime);
+         List<ElementP> GetData(string dateTime);
 
     }
 }

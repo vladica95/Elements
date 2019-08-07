@@ -19,26 +19,43 @@ namespace WebApi.Controllers
             dBS = ser;
         }
 
+        [HttpGet]
+        [Route("message")]
+        public string getSomeString()
+        {
+            Console.WriteLine("BASIC GET \n\n\n");
+            return "some string ";
+        }
+
         // GET api/values/5
         [HttpGet("{vreme}")]
-        public ActionResult<string> Get(DateTime dateTime)
+        public ActionResult<string> Get(string vreme)
         {
-
-            List<ElementP> result = dBS.GetData(dateTime);
-            string json = null; // convert result to json 
+            string json = null;
+            Console.WriteLine($"\n\n\nGET BY TIME REQUEST: {vreme.ToString()}\n\n\n");
+            List<ElementP> result = dBS.GetData(vreme);
+            foreach(var item in result)
+            {
+                json = json + item.ToJson();
+            }
+             // convert result to json 
 
             return Ok(json);
-           
+
         }
 
         // POST api/values
         [HttpPost]
         public void Post([FromBody] string value)
         {
-            ElementP ElP = new ElementP(value); //transform json to ElementP
+
+            Console.WriteLine($"\n\n\nPOST REQUEST WITH VALUE : {value}\n\n\n");
+
+            ElementP ElP = new ElementP(value);
             dBS.AddData(ElP);
+
         }
 
-      
+
     }
 }

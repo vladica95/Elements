@@ -25,12 +25,64 @@ namespace Elements
             FromJson(jSon);
         }
 
-        public ElementC[] Elementi
+        public ElementP(int brojElemenata, int redniBr)
         {
-            get{ return this.elementi; }
+
+            identifikacioniKod = DateTime.Now.Day.ToString() +
+                DateTime.Now.Month.ToString() +
+                DateTime.Now.Year.ToString() +
+                DateTime.Now.Hour.ToString() +
+                DateTime.Now.Minute.ToString() +
+                DateTime.Now.Second.ToString() +
+                (rand.Next(1000, 9999)).ToString();
+            redniBroj = redniBr;
+
+            elementi = new ElementC[brojElemenata];
+            for (int i = 0; i < brojElemenata; i++)
+            {
+                elementi[i] = new ElementC();
+            }
         }
 
-        private void FromJson(string json)
+        public string IdentifikacioniKod
+
+        {
+            get { return this.identifikacioniKod; }
+            set { this.identifikacioniKod = value; }
+
+        }
+        public int RedniBroj
+
+        {
+            get { return this.redniBroj; }
+            set { this.redniBroj = value; }
+        }
+
+        public ElementC[] Elementi
+        {
+            get { return this.elementi; }
+        }
+
+        public int NadjiSumu()
+        {
+            int suma = 0;
+            for (int i = 0; i < elementi.Length; i++)
+            {
+                suma = suma + elementi[i].Vrednost;
+            }
+            return suma;
+        }
+
+        public void AddCs(List<ElementC> elC)
+        {
+            elementi = new ElementC[elC.Count];
+            for (int i = 0; i < elC.Count; i++)
+            {
+                elementi[i] = elC[i];
+            }
+        }
+
+        public void FromJson(string json)
         {
             var jObject = JObject.Parse(json);
 
@@ -56,46 +108,6 @@ namespace Elements
             }
         }
 
-        public ElementP(int brojElemenata, int redniBr)
-        {
-
-            identifikacioniKod = DateTime.Now.Day.ToString() +
-                DateTime.Now.Month.ToString() +
-                DateTime.Now.Year.ToString() +
-                DateTime.Now.Hour.ToString() +
-                DateTime.Now.Minute.ToString() +
-                DateTime.Now.Second.ToString() +
-                (rand.Next(1000, 9999)).ToString();
-            redniBroj = redniBr;
-
-            elementi = new ElementC[brojElemenata];
-            for (int i = 0; i < brojElemenata; i++)
-            {
-                elementi[i] = new ElementC();
-            }
-        }
-
-        public string IdentifikacioniKod
-
-        {
-            get { return this.identifikacioniKod; }
-
-        }
-        public int RedniBroj
-
-        {
-            get { return this.redniBroj; }
-
-        }
-        public int NadjiSumu()
-        {
-            int suma = 0;
-            for (int i = 0; i < elementi.Length; i++)
-            {
-                suma = suma + elementi[i].Vrednost;
-            }
-            return suma;
-        }
         public void Stampaj()
         {
             Console.WriteLine("ElementP: ");
