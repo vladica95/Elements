@@ -67,7 +67,7 @@ namespace Elements
             {
                 Console.WriteLine("Unesite vrednost p: ");
                 int p = Int32.Parse(Console.ReadLine());
-                string output = "baza";
+                string output = "";
                 while (output != "baza" && output != "fajl")
                 {
                     Console.WriteLine("Unesite gde zelite da sacuvate pretragu:" +
