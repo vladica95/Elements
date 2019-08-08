@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System.Windows.Forms;
 using System.Net.Http;
@@ -11,14 +12,12 @@ using System.Data;
 using System.Net.Http.Formatting;
 using System.Net.Http.Headers;
 
-using Newtonsoft.Json;
+
 
 namespace Elements
 {
     class Generator
     {
-
-
         ElementP[] elementPs;
 
         public Generator(int brElementP, int brElementC)
@@ -29,7 +28,7 @@ namespace Elements
                 elementPs[i] = new ElementP(brElementC, i + 1);
                 elementPs[i].Stampaj();
             }
-            Console.WriteLine("Stampanje posle generisanja elemenata.");
+            Console.WriteLine("---------------------------------------------------");
         }
 
         public ElementP IDSearch(string ID)
@@ -54,36 +53,39 @@ namespace Elements
             }
         }
 
-        public async void Citanje(string dt)
+        public async Task Citanje(string dt)
         {
-            HttpClient hC = new HttpClient();
-            HttpResponseMessage response = await hC.GetAsync("https://localhost:5000/api/values/" + dt);
-            // List<ElementP> result = response.Content.ToString();
-            Console.WriteLine(response.Content.ToString());
-         /*   string URL = "https://localhost:5000/api/values";
+            
             HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri(URL);
 
+           // client.BaseAddress = new Uri("https://localhost:44312/api/values/");    //pokretanje servera preko MVS
+            client.BaseAddress = new Uri("http://localhost:5000/api/values/");        //pokretanje servera preko GitBash
+           
             // Add an Accept header for JSON format.
             client.DefaultRequestHeaders.Accept.Add(
             new MediaTypeWithQualityHeaderValue("application/json"));
 
             // List data response.
-            HttpResponseMessage response = client.GetAsync(dt).Result; 
+            HttpResponseMessage response = await client.GetAsync(dt);
             if (response.IsSuccessStatusCode)
             {
-                // Parse the response body.
-                var dataObjects = response.Content.ReadAsAsync<IEnumerable<ElementP>>().Result; 
-                foreach (var d in dataObjects)
+                List<string> dataStrings = await response.Content.ReadAsJsonAsync<ElementP>();
+                List<ElementP> dataObjects = new List<ElementP>();
+
+              // Parse the response body.
+                foreach (var item in dataStrings)
                 {
-                    Console.WriteLine("{0}", d.IdentifikacioniKod);
+                    dataObjects.Add(new ElementP(item));
+                }
+                foreach (var el in dataObjects)
+                {
+                    el.Stampaj();
                 }
             }
             else
             {
                 Console.WriteLine("{0} ({1})", (int)response.StatusCode, response.ReasonPhrase);
             }
-          */ //client.Dispose();
         }
         public void ProbaZaCitanje(string s)
         {
@@ -174,7 +176,6 @@ namespace Elements
 
                         cmd.ExecuteNonQuery();
                         Console.WriteLine("Vidi bazu tabela P xD");
-                       // ElementC[] elementCs = elP.Elementi;
 
                         foreach (var item in elementPs[i].Elementi)
                         {
@@ -205,9 +206,6 @@ namespace Elements
 
         public async void Pretraga(int p, string output)
         {
-            //TO DO
-            //da se popravi get i post 
-
             if (output == "baza")
             {
                 Console.WriteLine("Smestanje u bazu.");
@@ -220,10 +218,9 @@ namespace Elements
                         using (var client = new HttpClient())
                         {
                             var response = await client.PostAsync(
-                                "http://localhost:5000/api/values",
+                                "https://localhost:44312/api/values",
                                  new StringContent(elP, Encoding.UTF8, "application/json"));
                         }
-
                         Console.WriteLine("Salje se preko api");
                     }
                 }
@@ -234,7 +231,6 @@ namespace Elements
                 Console.WriteLine("Smestanje u fajl.");
                 while (path == "")
                 {
-
                     FolderBrowserDialog fbd = new FolderBrowserDialog();
                     //DialogResult result = fbd.ShowDialog();
                     //txtSelectedFolderPath.Text = fbd.SelectedPath.ToString();
@@ -258,6 +254,20 @@ namespace Elements
             {
                 Console.WriteLine("Doslo je do greske!");
             }
+        }
+    }
+    public static class HttpContentExtensions
+    {
+        public static async Task<List<string>> ReadAsJsonAsync<ElementP>(this HttpContent content)
+        {
+            string json = await content.ReadAsStringAsync();
+            List<string> value = new List<string>();
+            var jArray = JArray.Parse(json);
+            foreach (var item in jArray)
+            {
+                value.Add(item.ToString());
+            }
+            return value;
         }
     }
 }

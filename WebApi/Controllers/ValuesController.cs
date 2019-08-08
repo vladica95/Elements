@@ -32,31 +32,17 @@ namespace WebApi.Controllers
         [HttpGet("{vreme}", Name = "Get")]
         public ActionResult<string> Get(string vreme)
         {
-            string json = null;
             Console.WriteLine($"\n\n\nGET BY TIME REQUEST: {vreme.ToString()}\n\n\n");
             List<ElementP> result = dBS.GetData(vreme);
-            foreach(var item in result)
-            {
-                json = json + item.ToJson();
-            }
-             // convert result to json 
-
-            return Ok(json);
-
+            return Ok(result);
         }
 
         // POST api/values
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] ElementP value)
         {
-
             Console.WriteLine($"\n\n\nPOST REQUEST WITH VALUE : {value}\n\n\n");
-
-            ElementP ElP = new ElementP(value);
-            dBS.AddData(ElP);
-
+            dBS.AddData(value);
         }
-
-
     }
 }

@@ -10,7 +10,6 @@ namespace Elements
 {
     public class ElementP
     {
-
         private int redniBroj;
         private string identifikacioniKod;
         private ElementC[] elementi;
@@ -27,7 +26,6 @@ namespace Elements
 
         public ElementP(int brojElemenata, int redniBr)
         {
-
             identifikacioniKod = DateTime.Now.Day.ToString() +
                 DateTime.Now.Month.ToString() +
                 DateTime.Now.Year.ToString() +
@@ -43,21 +41,16 @@ namespace Elements
                 elementi[i] = new ElementC();
             }
         }
-
         public string IdentifikacioniKod
-
         {
             get { return this.identifikacioniKod; }
             set { this.identifikacioniKod = value; }
-
         }
         public int RedniBroj
-
         {
             get { return this.redniBroj; }
             set { this.redniBroj = value; }
         }
-
         public ElementC[] Elementi
         {
             get { return this.elementi; }
@@ -88,16 +81,16 @@ namespace Elements
 
             if (jObject != null)
             {
-                redniBroj = (int)jObject["RedniBroj"];
-                identifikacioniKod = jObject["IdentifikacioniKod"].ToString();
+                redniBroj = (int)jObject["redniBroj"];
+                identifikacioniKod = jObject["identifikacioniKod"].ToString();
 
-                JArray elementCs = (JArray)jObject["ElementC"];
+                JArray elementCs = (JArray)jObject["elementi"];
                 if (elementCs != null)
                 {
                     List<ElementC> elC = new List<ElementC>();
                     foreach (var item in elementCs)
                     {
-                        elC.Add(new ElementC((char)item["Grupa"], (int)item["Vrednost"]));
+                        elC.Add(new ElementC((char)item["grupa"], (int)item["vrednost"]));
                     }
                     elementi = new ElementC[elC.Count];
                     for (int i = 0; i < elC.Count; i++)
@@ -118,7 +111,6 @@ namespace Elements
             {
                 for (int i = 0; i < elementi.Length; i++)
                 {
-
                     elementi[i].Stampaj();
                 }
             }

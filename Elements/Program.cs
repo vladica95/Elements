@@ -4,10 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
-using System.Windows.Forms;
-using System.IO;
 using Newtonsoft.Json.Linq;
+using System.Windows.Forms;
 using System.Net.Http;
+using System.Data.SqlClient;
+using System.Data;
+using System.Net.Http.Formatting;
+using System.Net.Http.Headers;
+using System.IO;
 
 namespace Elements
 {
@@ -52,16 +56,15 @@ namespace Elements
                 {
                     var input = r.ReadToEnd();
                     var jObj = JObject.Parse(input);
-
                     n = (int)jObj.First.First;
                     k = (int)jObj.First.Next.First;
                     Console.WriteLine("Broj ElementP: " + n + "\nBroj ElementC je: " + k);
                 }
             }
             Generator gen = new Generator(n, k);
-            Console.WriteLine("Unesite ID po kome zelite da dobijete Element: ");
-            string potraga = Console.ReadLine();
-            gen.IDSearch(potraga);
+            //  Console.WriteLine("Unesite ID po kome zelite da dobijete Element: ");
+            //   string potraga = Console.ReadLine();
+            //   gen.IDSearch(potraga);
             string opet = "y";
             while (opet == "y")
             {
@@ -79,11 +82,20 @@ namespace Elements
                 Console.WriteLine("Traziti opet? y/n");
                 opet = Console.ReadLine();
             }
-            gen.Citanje("02:50:01");
-        //    gen.ProbaZaUpis();
-        // gen.ProbaZaCitanje("02:50:01");
 
+            Console.WriteLine("Citanje preko API");
+            Task someTask = gen.Citanje("02:50:01");
+            someTask.Wait();
+
+            Console.WriteLine("Enter any key..");
+            Console.ReadLine();
+
+            /* gen.ProbaZaUpis();
+             Console.WriteLine("Citanje preko konzole");
+             gen.ProbaZaCitanje("02:50:01");
+             Console.WriteLine("Enter any key..");
+             Console.ReadLine();
+            */
         }
     }
-  
 }

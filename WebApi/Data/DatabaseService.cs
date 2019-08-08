@@ -20,12 +20,10 @@ namespace WebApi.Data
 
         public void AddData(ElementP elP)
         {
-
             Console.WriteLine("ADDDING DATA IN TO THE DATABASE >>> \n\n\n");
             try
             {
                 con.Open();
-
                 string sql = "INSERT INTO ElementP (IdentifikacioniKod,RedniBroj,DatumPretrage) values (@ID,@RB,@DP)";
 
                 cmd = new SqlCommand(sql, con);
@@ -66,10 +64,7 @@ namespace WebApi.Data
             finally
             {
                 con.Close();
-
-                Console.WriteLine("DONE WITH DATA ... ");
             }
-
         }
         public List<ElementP> GetData(string time)
         {
@@ -105,7 +100,7 @@ namespace WebApi.Data
                     string IDenKod = item.IdentifikacioniKod;
                     string sqlC = "SELECT Grupa,Vrednost FROM ElementC WHERE IDKOD=@IDenKod";
                     SqlCommand cmdC = new SqlCommand(sqlC, con);
-                    cmdC.Parameters.AddWithValue("@IDenKod", dateTime);
+                    cmdC.Parameters.AddWithValue("@IDenKod", IDenKod);
                     using (SqlDataReader oReader = cmdC.ExecuteReader())
                     {
                         while (oReader.Read())
@@ -114,9 +109,8 @@ namespace WebApi.Data
                             elementCs.Add(ELC);
                         }
                     }
-                    item.AddCs(elementCs);
+                   item.AddCs(elementCs);
                 }
-
             }
             catch(Exception ex)
             {

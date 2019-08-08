@@ -9,8 +9,6 @@ namespace WebApi.Data
     public interface IDatabaseService
     {
          void AddData(ElementP elP);
-
          List<ElementP> GetData(string dateTime);
-
     }
 }

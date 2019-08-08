@@ -8,7 +8,6 @@ namespace Elements
 {
     public class ElementC
     {
-
         private char grupa;
         private int vrednost;
         private static readonly Random rand = new Random();
@@ -23,18 +22,16 @@ namespace Elements
             grupa = g;
             vrednost = v;
         }
-        
         public char Grupa
 
         {
             get { return this.grupa; }
-
+            set { this.grupa = value; }
         }
         public int Vrednost
-
         {
             get { return this.vrednost; }
-
+            set { this.vrednost = value; }
         }
         public void Stampaj()
         {
